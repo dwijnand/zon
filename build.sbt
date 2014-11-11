@@ -21,5 +21,8 @@ scalacOptions  += "-Ywarn-value-discard"
 
 wartremoverErrors ++= Warts allBut Wart.NoNeedForMonad // see typelevel/wartremover#106
 
+libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.0"
+libraryDependencies += "org.specs2" %% "specs2-core" % "2.4.11" % "test"
+
 watchSources ++= (baseDirectory.value * "*.sbt").get
 watchSources ++= (baseDirectory.value / "project" * "*.scala").get
