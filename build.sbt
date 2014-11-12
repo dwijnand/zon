@@ -19,7 +19,7 @@ scalacOptions  += "-Ywarn-numeric-widen"
 scalacOptions  += "-Ywarn-unused-import" // 2.11 only
 scalacOptions  += "-Ywarn-value-discard"
 
-wartremoverErrors ++= Warts allBut Wart.NoNeedForMonad // see typelevel/wartremover#106
+wartremoverErrors ++= Warts.all
 
 libraryDependencies += "com.amazonaws"        % "aws-java-sdk"   % "1.9.4"
 libraryDependencies += "com.martiansoftware"  % "nailgun-server" % "0.9.1"
