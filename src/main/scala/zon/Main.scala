@@ -1,6 +1,10 @@
 package zon
 
+import com.amazonaws.regions.{Region, Regions}
+import com.amazonaws.services.ec2.AmazonEC2AsyncClient
 import scopt._
+
+import scala.collection.JavaConverters._
 
 object Main {
   sealed trait Cmd
@@ -34,8 +38,35 @@ object Main {
     } getOrElse (())
   }
 
-  def ec2List(): Unit = {
-    println("ec2 instances")
+  def ec2List() = {
+//    val awsCredentialsProvider: AWSCredentialsProvider = new DefaultAWSCredentialsProviderChain()
+//    val awsCredentials = awsCredentialsProvider.getCredentials
+
+    val ec2AsyncClient = new AmazonEC2AsyncClient()
+    val regionToInstances = (Seq(Regions.EU_WEST_1, Regions.US_EAST_1, Regions.US_WEST_2)
+      map (_.toRegion())
+      map (r ⇒ ec2List1(ec2AsyncClient, r))
+    )
+    val allInstances = (regionToInstances map (_._2)).toVector.flatten
+    println(s"Total instances: ${allInstances.size}")
+  }
+
+  def ec2List1(ec2AsyncClient: AmazonEC2AsyncClient, region: Region) = {
+    println(s"Listing region: $region")
+    ec2AsyncClient setRegion region
+
+    val describeInstancesResult = ec2AsyncClient.describeInstances()
+
+    val reservations = describeInstancesResult.getReservations.asScala.toVector
+    println(s"${reservations.size} reservations found")
+    val instances = (reservations map (_.getInstances.asScala)).flatten
+    println(s"${instances.size} instances found")
+
+    (region, instances)
+  }
+
+  implicit class RegionsW(private val r: Regions) extends AnyVal {
+    def toRegion(): Region = Region getRegion r
   }
 
   implicit class AnyWithToUnit[A](private val x: A) extends AnyVal {
