@@ -59,7 +59,7 @@ object Main {
 
     val reservations = describeInstancesResult.getReservations.asScala.toVector
     println(s"${reservations.size} reservations found")
-    val instances = (reservations map (_.getInstances.asScala)).flatten
+    val instances = reservations flatMap (_.getInstances.asScala)
     println(s"${instances.size} instances found")
 
     (region, instances)

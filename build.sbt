@@ -19,7 +19,10 @@ scalacOptions  += "-Ywarn-numeric-widen"
 scalacOptions  += "-Ywarn-unused-import" // 2.11 only
 scalacOptions  += "-Ywarn-value-discard"
 
-wartremoverErrors ++= Warts.all
+// wartremoverErrors ++= Warts.unsafe // Once sbt-wartremover 0.12+ is out
+wartremoverErrors ++= Seq(Wart.Any, Wart.Any2StringAdd, Wart.AsInstanceOf, Wart.DefaultArguments,
+  Wart.EitherProjectionPartial, Wart.IsInstanceOf, Wart.NonUnitStatements, Wart.Null, Wart.OptionPartial, Wart.Product,
+  Wart.Return, Wart.Serializable, Wart.TryPartial, Wart.Var, Wart.ListOps)
 
 libraryDependencies += "com.amazonaws"        % "aws-java-sdk"   % "1.9.4"
 libraryDependencies += "com.martiansoftware"  % "nailgun-server" % "0.9.1"
