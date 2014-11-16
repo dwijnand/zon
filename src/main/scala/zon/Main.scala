@@ -10,7 +10,7 @@ object Main {
   sealed trait Cmd
   case object Noop extends Cmd
   case object Ec2 {
-    case object List extends Cmd
+    case object Count extends Cmd
   }
   case class Config(cmd: Cmd)
   object Config {
@@ -25,33 +25,33 @@ object Main {
     cmd("version") text "displays version information" action { (_, c) ⇒ showHeader; c } toUnit()
 
     cmd("ec2") action ((_, c) ⇒ c) children(
-      cmd("list") action ((_, c) ⇒ c copy (cmd = Ec2.List))
+      cmd("count") action ((_, c) ⇒ c copy (cmd = Ec2.Count))
     ) toUnit()
   }
 
   def main(args: Array[String]): Unit = {
     OptParser.parse(args, Config.StartConfig) map { config ⇒
       config.cmd match {
-        case Ec2.List ⇒ ec2List()
-        case Noop     ⇒ ()
+        case Ec2.Count ⇒ ec2Count()
+        case Noop      ⇒ ()
       }
     } getOrElse (())
   }
 
-  def ec2List() = {
+  def ec2Count() = {
 //    val awsCredentialsProvider: AWSCredentialsProvider = new DefaultAWSCredentialsProviderChain()
 //    val awsCredentials = awsCredentialsProvider.getCredentials
 
     val ec2AsyncClient = new AmazonEC2AsyncClient()
     val regionToInstances = (Seq(Regions.EU_WEST_1, Regions.US_EAST_1, Regions.US_WEST_2)
       map (_.toRegion())
-      map (r ⇒ ec2List1(ec2AsyncClient, r))
+      map (r ⇒ ec2Count1(ec2AsyncClient, r))
     )
     val allInstances = (regionToInstances map (_._2)).toVector.flatten
     println(s"Total instances: ${allInstances.size}")
   }
 
-  def ec2List1(ec2AsyncClient: AmazonEC2AsyncClient, region: Region) = {
+  def ec2Count1(ec2AsyncClient: AmazonEC2AsyncClient, region: Region) = {
     println(s"Listing region: $region")
     ec2AsyncClient setRegion region
 

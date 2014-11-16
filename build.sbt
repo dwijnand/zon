@@ -14,9 +14,9 @@ scalacOptions  += "-Xfatal-warnings"
 scalacOptions  += "-Xfuture"
 scalacOptions  += "-Yinline-warnings"
 scalacOptions  += "-Yno-adapted-args"
-scalacOptions  += "-Ywarn-dead-code" // WARN: Too many ???s cause false positives!
+scalacOptions  += "-Ywarn-dead-code"
 scalacOptions  += "-Ywarn-numeric-widen"
-scalacOptions  += "-Ywarn-unused-import" // 2.11 only
+scalacOptions  += "-Ywarn-unused-import"
 scalacOptions  += "-Ywarn-value-discard"
 
 // wartremoverErrors ++= Warts.unsafe // Once sbt-wartremover 0.12+ is out
