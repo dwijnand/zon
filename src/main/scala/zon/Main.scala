@@ -39,30 +39,22 @@ object Main {
   }
 
   def ec2Count() = {
-//    val awsCredentialsProvider: AWSCredentialsProvider = new DefaultAWSCredentialsProviderChain()
-//    val awsCredentials = awsCredentialsProvider.getCredentials
-
     val ec2AsyncClient = new AmazonEC2AsyncClient()
-    val regionToInstances = (Seq(Regions.EU_WEST_1, Regions.US_EAST_1, Regions.US_WEST_2)
+    val instancesSizes = (Seq(Regions.EU_WEST_1, Regions.US_EAST_1, Regions.US_WEST_2)
       map (_.toRegion())
       map (r ⇒ ec2Count1(ec2AsyncClient, r))
     )
-    val allInstances = (regionToInstances map (_._2)).toVector.flatten
-    println(s"Total instances: ${allInstances.size}")
+    println(s"Total instances: ${instancesSizes.sum}")
   }
 
   def ec2Count1(ec2AsyncClient: AmazonEC2AsyncClient, region: Region) = {
-    println(s"Listing region: $region")
     ec2AsyncClient setRegion region
 
     val describeInstancesResult = ec2AsyncClient.describeInstances()
 
-    val reservations = describeInstancesResult.getReservations.asScala.toVector
-    println(s"${reservations.size} reservations found")
+    val reservations = describeInstancesResult.getReservations.asScala
     val instances = reservations flatMap (_.getInstances.asScala)
-    println(s"${instances.size} instances found")
-
-    (region, instances)
+    instances.size
   }
 
   implicit class RegionsW(private val r: Regions) extends AnyVal {
