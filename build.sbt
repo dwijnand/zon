@@ -33,5 +33,8 @@ libraryDependencies += "org.scalaz"          %% "scalaz-core"    % "7.1.0"
 libraryDependencies += "com.github.scopt"    %% "scopt"          % "3.2.0"
 libraryDependencies += "org.specs2"          %% "specs2-core"    % "2.4.11" % "test"
 
+assemblyJarName in assembly := name.value
+assemblyOption  in assembly := (assemblyOption in assembly).value.copy(prependShellScript = Some(AssemblyPlugin.defaultShellScript))
+
 watchSources ++= (baseDirectory.value * "*.sbt").get
 watchSources ++= (baseDirectory.value / "project" * "*.scala").get
