@@ -24,6 +24,9 @@ wartremoverErrors ++= Seq(Wart.Any, Wart.Any2StringAdd, Wart.AsInstanceOf, Wart.
   Wart.EitherProjectionPartial, Wart.IsInstanceOf, Wart.NonUnitStatements, Wart.Null, Wart.OptionPartial, Wart.Product,
   Wart.Return, Wart.Serializable, Wart.TryPartial, Wart.Var, Wart.ListOps)
 
+scalacOptions in (Compile, console) ~= (_ filterNot (_ == "-Ywarn-unused-import"))
+scalacOptions in (Compile, console) ~= (_ filterNot (_ startsWith "-P:wartremover:traverser:"))
+
 libraryDependencies += "com.amazonaws"        % "aws-java-sdk"   % "1.9.4"
 libraryDependencies += "com.martiansoftware"  % "nailgun-server" % "0.9.1"
 libraryDependencies += "org.scalaz"          %% "scalaz-core"    % "7.1.0"
