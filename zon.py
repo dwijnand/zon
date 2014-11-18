@@ -5,7 +5,7 @@ import boto.ec2
 
 def main():
     sizes = [ec2_count(region) for region in ['eu-west-1', 'us-east-1', 'us-west-2']]
-    print 'Total instances: ' + str(sum(sizes))
+    print 'Total instances: {0}'.format(sum(sizes))
 
 
 def ec2_count(region):
