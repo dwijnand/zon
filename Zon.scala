@@ -1,11 +1,9 @@
-package zon
-
 import com.amazonaws.regions.{Region, Regions}
 import com.amazonaws.services.ec2.AmazonEC2AsyncClient
 
 import scala.collection.JavaConverters._
 
-object Main {
+object Zon {
   def main(args: Array[String]): Unit = {
     val ec2AsyncClient = new AmazonEC2AsyncClient()
     val instancesSizes = (Seq(Regions.EU_WEST_1, Regions.US_EAST_1, Regions.US_WEST_2)
