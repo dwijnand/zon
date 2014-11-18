@@ -10,10 +10,7 @@ def main():
 
 def ec2_count(region):
     conn = boto.ec2.connect_to_region(region)
-    reservations = conn.get_all_reservations()
-    instances = [i
-                 for r in reservations
-                 for i in r.instances]
+    instances = conn.get_only_instances()
     return len(instances)
 
 
