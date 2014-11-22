@@ -1,4 +1,6 @@
-# Zon: A scala tool for interacting with AmaZON's AWS
+# Zon
+
+A scala tool for interacting with AmaZON's AWS
 
 ## Timings
 
