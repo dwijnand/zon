@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
+from multiprocessing import Pool
 import boto.ec2
 
 
 def main():
-    sizes = [ec2_count(region) for region in ['eu-west-1', 'us-east-1', 'us-west-2']]
-    print 'Total instances: {0}'.format(sum(sizes))
+    regions = ['eu-west-1', 'us-east-1', 'us-west-2']
+    pool = Pool(len(regions))
+    num_reg_instances = pool.map(ec2_count, regions)
+    print 'Total instances: {0}'.format(sum(num_reg_instances))
 
 
 def ec2_count(region):
