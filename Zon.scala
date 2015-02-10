@@ -6,8 +6,9 @@ import scala.collection.JavaConverters._
 
 object Zon {
   def main(args: Array[String]): Unit = {
-    val sizes = Seq(EU_WEST_1, US_EAST_1, US_WEST_2).par map (_.toRegion()) map ec2Count
-    println(s"Total instances: ${sizes.sum}")
+    val regions = Seq(EU_WEST_1, US_EAST_1, US_WEST_2) map (_.toRegion())
+    val numRegInstances = regions.par map ec2Count
+    println(s"Total instances: ${numRegInstances.sum}")
   }
 
   def ec2Count(region: Region) = {
@@ -15,7 +16,6 @@ object Zon {
     ec2AsyncClient setRegion region
 
     val describeInstancesResult = ec2AsyncClient.describeInstances()
-
     val reservations = describeInstancesResult.getReservations.asScala
     val instances = reservations flatMap (_.getInstances.asScala)
     instances.size
