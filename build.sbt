@@ -29,7 +29,7 @@ scalacOptions in (Compile, console) ~= (_ filterNot (_ startsWith "-P:wartremove
 
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.9.4"
 
-//assemblyJarName in assembly := name.value
+assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 //assemblyOption  in assembly := (assemblyOption in assembly).value.copy(prependShellScript = Some(AssemblyPlugin.defaultShellScript))
 
 watchSources ++= (baseDirectory.value * "*.sbt").get
