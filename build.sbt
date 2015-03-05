@@ -28,6 +28,9 @@ scalacOptions in (Compile, console) ~= (_ filterNot (_ == "-Ywarn-unused-import"
 scalacOptions in (Compile, console) ~= (_ filterNot (_ startsWith "-P:wartremover:traverser:"))
 
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.9.4"
+// libraryDependencies += "xerces"        % "xercesImpl"   % "2.11.0"
+
+// libraryDependencies += "javax.xml.parsers" % "jaxp-api"     % "1.4.5"
 
 assemblyJarName in assembly := s"${name.value}-${version.value}.jar"
 //assemblyOption  in assembly := (assemblyOption in assembly).value.copy(prependShellScript = Some(AssemblyPlugin.defaultShellScript))
